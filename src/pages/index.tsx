@@ -1,11 +1,7 @@
-import getEnvVariable from "./utils/getEnvVariable";
+import { encryptPassword } from "./features/auth/encryptPassword";
 
 export default function Home() {
+  console.log(encryptPassword({ email: "gigi", password: "marcel" }));
+  debugger;
   return <>Home</>;
 }
-
-export const getServerSideProps = () => {
-  return {
-    props: {},
-  };
-};
