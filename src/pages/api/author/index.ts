@@ -26,7 +26,8 @@ export default async function handler(
           })
           .then(() => res.status(204).end())
           .catch((err: PrismaClientKnownRequestError) => {
-            res.end(err.message);
+            console.log("err", err);
+            res.status(500).end("Bad Req");
           });
       },
     });

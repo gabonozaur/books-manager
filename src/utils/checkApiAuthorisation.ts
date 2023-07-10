@@ -22,7 +22,7 @@ export const checkApiAuthorisation = async (props: {
     const user = await prismaClient.user.findUnique({
       where: { id: userId },
     });
-    if (user.role === role) {
+    if (user && user.role === role) {
       callback?.();
     } else {
       res.status(401).end();

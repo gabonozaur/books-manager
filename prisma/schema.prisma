@@ -18,13 +18,13 @@ model User {
 model Book {
   id       String @id @default(uuid())
   author   Author @relation(fields: [authorId], references: [id])
-  authorId String
+  authorId String 
   name     String @unique(map: "Book_key")
 }
 
 model Author {
   id    String @id @default(uuid())
-  name  String
+  name  String  @unique(map: "Author_key")
   books Book[]
 }
 
