@@ -65,7 +65,14 @@ const LoginAuth = () => {
               <InputRightAddon>
                 <IconButton
                   aria-label="see/hide password"
-                  as={seePassword ? AiFillEye : AiFillEyeInvisible}
+                  size="16px"
+                  icon={
+                    seePassword ? (
+                      <AiFillEye size="24px" />
+                    ) : (
+                      <AiFillEyeInvisible size="24px" />
+                    )
+                  }
                   onClick={() => {
                     setSeePassword(!seePassword);
                   }}

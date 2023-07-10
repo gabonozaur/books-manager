@@ -1,4 +1,7 @@
-export type GetEnvVariableProps = "Pass_Encrypt_Secret" | "JWT_Key";
+export type GetEnvVariableProps =
+  | "Pass_Encrypt_Secret"
+  | "JWT_Key"
+  | "NEXT_PUBLIC_BASEURL";
 const getEnvVariable = (props: GetEnvVariableProps) => {
   const value = process.env[props];
 

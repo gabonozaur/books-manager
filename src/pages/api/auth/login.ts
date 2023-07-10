@@ -1,5 +1,5 @@
 import { encryptPassword } from "@/features/auth/encryptPassword";
-import { LoginDTO } from "@/features/auth/models";
+import { JWTDTO, LoginDTO } from "@/features/auth/models";
 import getEnvVariable from "@/utils/getEnvVariable";
 import prismaClient from "@/utils/prismaClient";
 import jwt from "jsonwebtoken";
@@ -24,7 +24,8 @@ export default async function handler(
         userId: user.id,
         email: user.email,
         role: user.role,
-      };
+        name: user.name,
+      } as JWTDTO;
 
       const token = jwt.sign(data, jwtSecretKey);
 

@@ -8,10 +8,9 @@ import { RegisterAuth } from "../auth/register";
 const Navbar = () => {
   const { token } = useContext(AuthContext);
   return (
-    <Flex align="center" justify="space-between">
+    <Flex align="center" minH="32px" justify="space-between">
       <Flex gap="32px">
         <Link href={"/"}>Home</Link>
-        <Link href={"/categories"}>Categories</Link>
       </Flex>
       {token ? null : (
         <Flex gap="16px">
