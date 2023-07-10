@@ -21,7 +21,7 @@ const useLoginAuth = () => {
     setPendingAuth(false);
   };
 
-  const { values, handleChange, errors, handleSubmit, touched } =
+  const { values, handleChange, errors, handleSubmit, touched, handleReset } =
     useFormik<LoginDTO>({
       initialValues: { email: "", password: "" },
       onSubmit: loginRequest,
@@ -38,6 +38,7 @@ const useLoginAuth = () => {
     errors,
     handleSubmit,
     touched,
+    handleReset,
   };
 };
 

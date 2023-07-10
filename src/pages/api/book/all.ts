@@ -1,4 +1,3 @@
-import { checkApiAuthorisation } from "@/utils/checkApiAuthorisation";
 import prismaClient from "@/utils/prismaClient";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiRequest, NextApiResponse } from "next";

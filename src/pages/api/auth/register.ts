@@ -1,5 +1,5 @@
-import { encryptPassword } from "@/pages/features/auth/encryptPassword";
-import { RegisterDTO } from "@/pages/features/auth/models";
+import { encryptPassword } from "@/features/auth/encryptPassword";
+import { RegisterDTO } from "@/features/auth/models";
 import prismaClient from "@/utils/prismaClient";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiRequest, NextApiResponse } from "next";

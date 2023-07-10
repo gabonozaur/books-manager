@@ -1,5 +1,5 @@
-import { encryptPassword } from "@/pages/features/auth/encryptPassword";
-import { LoginDTO } from "@/pages/features/auth/models";
+import { encryptPassword } from "@/features/auth/encryptPassword";
+import { LoginDTO } from "@/features/auth/models";
 import getEnvVariable from "@/utils/getEnvVariable";
 import prismaClient from "@/utils/prismaClient";
 import jwt from "jsonwebtoken";
