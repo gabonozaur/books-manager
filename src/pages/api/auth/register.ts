@@ -19,6 +19,9 @@ export default async function handler(
           email,
           password: encryptPassword(req.body),
         },
+        select: {
+          id: true,
+        },
       })
       .then(() => res.end())
       .catch((err: PrismaClientKnownRequestError) => {
