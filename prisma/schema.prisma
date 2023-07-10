@@ -7,9 +7,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
-  id    String  @id @default(uuid())
-  email String  @unique(map: "User_email_key")
+model User {
+  id       String   @id @default(uuid())
+  email    String   @unique(map: "User_email_key")
   password String
-  name  String?
+  name     String?
+  role     UserRole @default(USER)
+}
+
+model Book {
+  id       String @id @default(uuid())
+  author   Author @relation(fields: [authorId], references: [id])
+  authorId String
+  name     String @unique(map: "Book_key")
+}
+
+model Author {
+  id    String @id @default(uuid())
+  name  String
+  books Book[]
+}
+
+enum UserRole {
+  USER
+  ADMIN
 }
