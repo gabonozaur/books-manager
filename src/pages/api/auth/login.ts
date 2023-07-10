@@ -1,9 +1,9 @@
 import { encryptPassword } from "@/pages/features/auth/encryptPassword";
 import { LoginDTO } from "@/pages/features/auth/models";
-import { PrismaClient } from "@prisma/client";
-import { NextApiRequest, NextApiResponse } from "next";
+import getEnvVariable from "@/utils/getEnvVariable";
+import prismaClient from "@/utils/prismaClient";
 import jwt from "jsonwebtoken";
-import getEnvVariable from "@/pages/utils/getEnvVariable";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,9 +11,8 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const { email } = req.body as LoginDTO;
-    const prisma = new PrismaClient();
 
-    const user = await prisma.user.findUnique({
+    const user = await prismaClient.user.findUnique({
       where: {
         email,
       },
@@ -24,6 +23,7 @@ export default async function handler(
       let data = {
         userId: user.id,
         email: user.email,
+        role: user.role,
       };
 
       const token = jwt.sign(data, jwtSecretKey);

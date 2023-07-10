@@ -1,4 +1,4 @@
-import getEnvVariable from "@/pages/utils/getEnvVariable";
+import getEnvVariable from "@/utils/getEnvVariable";
 import jsSHA from "jssha";
 import { LoginDTO } from "./models";
 

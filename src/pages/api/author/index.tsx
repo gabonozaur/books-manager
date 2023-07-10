@@ -1,4 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { checkApiAuthorisation } from "@/utils/checkApiAuthorisation";
+import prismaClient from "@/utils/prismaClient";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -8,20 +9,26 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const name = req.body.name as string;
-    const prisma = new PrismaClient();
 
-    await prisma.author
-      .create({
-        data: {
-          name,
-        },
-        select: {
-          id: true,
-        },
-      })
-      .then(() => res.end())
-      .catch((err: PrismaClientKnownRequestError) => {
-        res.end(err.message);
-      });
+    checkApiAuthorisation({
+      req,
+      res,
+      role: "ADMIN",
+      callback: async () => {
+        await prismaClient.author
+          .create({
+            data: {
+              name,
+            },
+            select: {
+              id: true,
+            },
+          })
+          .then(() => res.status(204).end())
+          .catch((err: PrismaClientKnownRequestError) => {
+            res.end(err.message);
+          });
+      },
+    });
   }
 }
