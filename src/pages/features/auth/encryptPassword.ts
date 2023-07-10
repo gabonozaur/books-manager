@@ -12,6 +12,5 @@ export const encryptPassword = (props: LoginDTO) => {
     shaObj.update(passEnvVariable);
   }
 
-  debugger;
   return shaObj.getHash("HEX");
 };
