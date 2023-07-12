@@ -3,9 +3,7 @@ import { useAuth } from "@/features/auth/useAuth";
 import Navbar from "@/features/navbar";
 import { accessTokenCookieKey } from "@/utils/handleCookies";
 import { ChakraProvider } from "@chakra-ui/react";
-import { GetServerSidePropsContext, PreviewData } from "next";
 import type { AppProps } from "next/app";
-import { ParsedUrlQuery } from "querystring";
 
 export default function App({
   Component,
@@ -13,6 +11,7 @@ export default function App({
   cookies,
 }: AppProps & { cookies: any }) {
   const authValues = useAuth(cookies[accessTokenCookieKey]);
+
   return (
     <ChakraProvider>
       <AuthContext.Provider value={authValues}>
