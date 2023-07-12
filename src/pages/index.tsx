@@ -1,5 +1,5 @@
-import Book from "@/features/Booka";
-import { BookDTO } from "@/features/Booka/models";
+import Book from "@/features/book";
+import { BookDTO } from "@/features/book/models";
 import { apiClient } from "@/utils/apiClient";
 import { Text, Grid } from "@chakra-ui/react";
 import axios from "axios";

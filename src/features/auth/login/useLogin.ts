@@ -9,7 +9,7 @@ const validationSchema = yup
   .object()
   .shape<{ [key in keyof LoginDTO]: yup.Schema<any> }>({
     email: yup.string().required("required").email("must be email"),
-    password: yup.string().required("req value").min(8, "min 8 chars long"),
+    password: yup.string().required("required").min(8, "min 8 length"),
   });
 
 const useLoginAuth = () => {
@@ -17,7 +17,7 @@ const useLoginAuth = () => {
 
   const { setToken } = useContext(AuthContext);
 
-  const onSubmit = async (data: LoginDTO) => {
+  const loginRequest = async (data: LoginDTO) => {
     try {
       setPendingAuth(true);
       const res = await axios.post("/api/auth/login", data);
@@ -31,7 +31,7 @@ const useLoginAuth = () => {
   const { values, handleChange, errors, handleSubmit, touched, handleReset } =
     useFormik<LoginDTO>({
       initialValues: { email: "", password: "" },
-      onSubmit,
+      onSubmit: loginRequest,
       validationSchema,
     });
 

@@ -1,10 +1,12 @@
+import { apiClient } from "@/utils/apiClient";
+import { eraseCookie, setCookie } from "@/utils/handleCookies";
 import jwt from "jsonwebtoken";
 import { useEffect, useState } from "react";
 import { JWTDTO, UseAuth } from "./models";
 
-export const useAuth = (): UseAuth => {
+export const useAuth = (initialToken: string): UseAuth => {
   const [decodedToken, setDecodedToken] = useState<JWTDTO>();
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(initialToken);
 
   useEffect(() => {
     if (token) {
@@ -13,6 +15,13 @@ export const useAuth = (): UseAuth => {
       if (decodedToken) {
         setDecodedToken(null);
       }
+    }
+
+    apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
+    if (token) {
+      setCookie("Access-Token", token);
+    } else {
+      eraseCookie("Access-Token");
     }
   }, [token]);
 
