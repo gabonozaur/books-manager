@@ -20,7 +20,7 @@ model Book {
   author     Author           @relation(fields: [authorId], references: [id])
   authorId   String
   name       String           @unique(map: "Book_key")
-  category   BookToCategory[]
+  categories   BookToCategory[]
 }
 
 model Author {
