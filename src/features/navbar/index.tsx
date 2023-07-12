@@ -4,6 +4,8 @@ import { useContext } from "react";
 import { AuthContext } from "../auth";
 import LoginAuth from "../auth/login";
 import { RegisterAuth } from "../auth/register";
+import AddBook from "../Booka/add";
+import AddCategory from "../category/add";
 
 const Navbar = () => {
   const { token } = useContext(AuthContext);
@@ -12,12 +14,21 @@ const Navbar = () => {
       <Flex gap="32px">
         <Link href={"/"}>Home</Link>
       </Flex>
-      {token ? null : (
-        <Flex gap="16px">
-          <LoginAuth />
-          <RegisterAuth />
-        </Flex>
-      )}
+      <Flex gap="16px">
+        <AddBook />
+        <AddCategory />
+
+        {token ? (
+          <>
+            <AddBook />
+          </>
+        ) : (
+          <>
+            <LoginAuth />
+            <RegisterAuth />
+          </>
+        )}
+      </Flex>
     </Flex>
   );
 };

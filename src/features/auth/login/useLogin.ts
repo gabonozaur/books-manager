@@ -5,12 +5,19 @@ import { AuthContext } from "..";
 import { LoginDTO } from "../models";
 import * as yup from "yup";
 
+const validationSchema = yup
+  .object()
+  .shape<{ [key in keyof LoginDTO]: yup.Schema<any> }>({
+    email: yup.string().required("required").email("must be email"),
+    password: yup.string().required("req value").min(8, "min 8 chars long"),
+  });
+
 const useLoginAuth = () => {
   const [pendingAuth, setPendingAuth] = useState(false);
 
   const { setToken } = useContext(AuthContext);
 
-  const loginRequest = async (data: LoginDTO) => {
+  const onSubmit = async (data: LoginDTO) => {
     try {
       setPendingAuth(true);
       const res = await axios.post("/api/auth/login", data);
@@ -24,11 +31,8 @@ const useLoginAuth = () => {
   const { values, handleChange, errors, handleSubmit, touched, handleReset } =
     useFormik<LoginDTO>({
       initialValues: { email: "", password: "" },
-      onSubmit: loginRequest,
-      validationSchema: yup.object().shape({
-        email: yup.string().required("required").email("must be email"),
-        password: yup.string().required("req value").min(8, "min 8 chars long"),
-      }),
+      onSubmit,
+      validationSchema,
     });
 
   return {

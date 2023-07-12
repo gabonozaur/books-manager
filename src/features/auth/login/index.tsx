@@ -9,6 +9,7 @@ import {
   ModalBody,
   ModalContent,
 } from "@chakra-ui/react";
+import { Form } from "formik";
 import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import useLoginAuth from "./useLogin";
@@ -43,52 +44,60 @@ const LoginAuth = () => {
       >
         <ModalContent>
           <ModalBody border={"3px solid green"}>
-            <FormLabel htmlFor="email">Email</FormLabel>
-
-            <Input
-              isInvalid={errors.email && touched.email}
-              id="email"
-              onChange={handleChange}
-              value={values.email}
-            />
-            {errors.email && touched.email ? <div>{errors.email}</div> : null}
-            <FormLabel htmlFor="password">Pass</FormLabel>
-            <InputGroup>
-              <Input
-                autoComplete="off"
-                isInvalid={errors.password && touched.password}
-                id={"password"}
-                type={seePassword ? "text" : "password"}
-                value={values.password}
-                onChange={handleChange}
-              />
-              <InputRightAddon>
-                <IconButton
-                  aria-label="see/hide password"
-                  size="16px"
-                  icon={
-                    seePassword ? (
-                      <AiFillEye size="24px" />
-                    ) : (
-                      <AiFillEyeInvisible size="24px" />
-                    )
-                  }
-                  onClick={() => {
-                    setSeePassword(!seePassword);
-                  }}
-                />
-              </InputRightAddon>
-            </InputGroup>
-            {errors.password && touched.password ? (
-              <div>{errors.password}</div>
-            ) : null}
-            <Button
-              my="4px"
-              isLoading={pendingAuth}
-              onClick={() => handleSubmit()}
+            <form
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  handleSubmit();
+                }
+              }}
             >
-              Login
-            </Button>
+              <FormLabel htmlFor="email">Email</FormLabel>
+
+              <Input
+                isInvalid={errors.email && touched.email}
+                id="email"
+                onChange={handleChange}
+                value={values.email}
+              />
+              {errors.email && touched.email ? <div>{errors.email}</div> : null}
+              <FormLabel htmlFor="password">Pass</FormLabel>
+              <InputGroup>
+                <Input
+                  autoComplete="off"
+                  isInvalid={errors.password && touched.password}
+                  id={"password"}
+                  type={seePassword ? "text" : "password"}
+                  value={values.password}
+                  onChange={handleChange}
+                />
+                <InputRightAddon>
+                  <IconButton
+                    aria-label="see/hide password"
+                    size="16px"
+                    icon={
+                      seePassword ? (
+                        <AiFillEye size="24px" />
+                      ) : (
+                        <AiFillEyeInvisible size="24px" />
+                      )
+                    }
+                    onClick={() => {
+                      setSeePassword(!seePassword);
+                    }}
+                  />
+                </InputRightAddon>
+              </InputGroup>
+              {errors.password && touched.password ? (
+                <div>{errors.password}</div>
+              ) : null}
+              <Button
+                my="4px"
+                isLoading={pendingAuth}
+                onClick={() => handleSubmit()}
+              >
+                Login
+              </Button>
+            </form>
           </ModalBody>
         </ModalContent>
       </Modal>
