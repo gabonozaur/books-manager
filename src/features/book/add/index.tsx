@@ -20,6 +20,7 @@ const AddBook = () => {
     handleSubmit,
     savingChanges,
     handleReset,
+    categoryOptions,
   } = useAddBook();
   return (
     <>
@@ -38,6 +39,22 @@ const AddBook = () => {
           <form>
             <FormLabel htmlFor="name">Book Name</FormLabel>
             <Input id="name" value={values.name} onChange={handleChange} />
+
+            <FormLabel htmlFor="category">categ</FormLabel>
+            <Select
+              value={values.category}
+              onChange={handleChange}
+              id="category"
+            >
+              <option hidden disabled value="">
+                Select Categ
+              </option>
+              {categoryOptions.map(({ id, name }) => (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </Select>
 
             <FormLabel htmlFor="authorId">Author</FormLabel>
             <Select

@@ -9,30 +9,22 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const name = req.body.name as string;
-    const authorId = req.body.authorId as string;
-    const category = req.body.category as string;
+
     checkApiAuthorisation({
       req,
       res,
+      role: "ADMIN",
       callback: async () => {
-        await prismaClient.bookToCategory
+        await prismaClient.category
           .create({
             data: {
-              category: {
-                connect: { id: category },
-              },
-              book: {
-                create: {
-                  name,
-                  authorId,
-                },
-              },
+              name,
             },
             select: {
-              bookId: true,
+              id: true,
             },
           })
-          .then((data) => res.status(204).json(data))
+          .then(() => res.status(204).end())
           .catch((err: PrismaClientKnownRequestError) => {
             console.log("err", err);
             res.status(500).end("Bad Req");

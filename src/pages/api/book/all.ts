@@ -13,6 +13,7 @@ export default async function handler(
           name: true,
           author: true,
           id: true,
+          category: true,
         },
       })
       .then((data) => res.status(200).json(data))

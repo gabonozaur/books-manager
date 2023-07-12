@@ -25,7 +25,7 @@ export const checkApiAuthorisation = async (props: {
     if (user && user.role === role) {
       callback?.();
     } else {
-      res.status(401).end();
+      res.status(401).json(user);
     }
   }
 };

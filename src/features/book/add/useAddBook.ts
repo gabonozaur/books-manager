@@ -8,6 +8,9 @@ import { AddBookDTO } from "./models";
 const useAddBook = () => {
   const [fetchignAuthors, setFetchingAuthors] = useState(false);
   const [authorOptions, setAuthorOptions] = useState<NameWithId[]>([]);
+  const [fetchignCategories, setFetchingCategories] = useState(false);
+  const [categoryOptions, setCategoryOptions] = useState<NameWithId[]>([]);
+
   const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: false });
   const [savingChanges, setSavingChanges] = useState(false);
   const fetchAuthors = async () => {
@@ -20,10 +23,21 @@ const useAddBook = () => {
     setFetchingAuthors(false);
   };
 
+  const fetchCategories = async () => {
+    setFetchingCategories(true);
+
+    try {
+      const { data } = await apiClient.get("/api/category/all");
+      setCategoryOptions(data);
+    } catch (e) {}
+    setFetchingCategories(false);
+  };
+
   const saveRequest = async (data: AddBookDTO) => {
     try {
       setSavingChanges(true);
       await apiClient.post("/api/book", data);
+      window.location.reload();
     } catch (e) {
       console.log("catch err", e);
     }
@@ -32,13 +46,14 @@ const useAddBook = () => {
 
   const { values, handleChange, errors, handleSubmit, touched, handleReset } =
     useFormik<AddBookDTO>({
-      initialValues: { authorId: "", name: "" },
+      initialValues: { authorId: "", name: "", category: "" },
       onSubmit: saveRequest,
     });
 
   useEffect(() => {
     if (isOpen) {
       fetchAuthors();
+      fetchCategories();
     }
   }, [isOpen]);
 
@@ -54,6 +69,8 @@ const useAddBook = () => {
     touched,
     handleReset,
     savingChanges,
+    fetchignCategories,
+    categoryOptions,
   };
 };
 

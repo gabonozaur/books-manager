@@ -16,16 +16,32 @@ model User {
 }
 
 model Book {
-  id       String @id @default(uuid())
-  author   Author @relation(fields: [authorId], references: [id])
-  authorId String 
-  name     String @unique(map: "Book_key")
+  id         String           @id @default(uuid())
+  author     Author           @relation(fields: [authorId], references: [id])
+  authorId   String
+  name       String           @unique(map: "Book_key")
+  category   BookToCategory[]
 }
 
 model Author {
   id    String @id @default(uuid())
-  name  String  @unique(map: "Author_key")
+  name  String @unique(map: "Author_key")
   books Book[]
+}
+
+model Category {
+  id     String           @id @default(uuid())
+  name   String           @unique(map: "Category_key")
+  book   BookToCategory[]
+}
+
+model BookToCategory {
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+  book       Book     @relation(fields: [bookId], references: [id])
+  bookId     String
+
+  @@id([categoryId, bookId])
 }
 
 enum UserRole {
