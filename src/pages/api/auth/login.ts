@@ -1,6 +1,7 @@
 import { encryptPassword } from "@/features/auth/encryptPassword";
 import { JWTDTO, LoginDTO } from "@/features/auth/models";
 import getEnvVariable from "@/utils/getEnvVariable";
+import { accessTokenCookieKey } from "@/utils/handleCookies";
 import prismaClient from "@/utils/prismaClient";
 import jwt from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -29,8 +30,15 @@ export default async function handler(
 
       const token = jwt.sign(data, jwtSecretKey);
 
-      res.end(JSON.stringify({ token }));
+      res.setHeader(
+        "Set-Cookie",
+        `${accessTokenCookieKey}=${token}; Path=/; HttpOnly`
+      );
+
+      res.json(data);
+      return;
     }
     res.end("error");
+    return;
   }
 }

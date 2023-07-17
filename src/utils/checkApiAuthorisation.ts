@@ -1,6 +1,7 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
 import getEnvVariable from "./getEnvVariable";
+import { accessTokenCookieKey } from "./handleCookies";
 import prismaClient from "./prismaClient";
 export const checkApiAuthorisation = async (props: {
   req: NextApiRequest;
@@ -9,8 +10,8 @@ export const checkApiAuthorisation = async (props: {
   callback?: () => void;
 }) => {
   const { req, res, role, callback } = props;
-  const token = req.headers.authorization?.split("Bearer ")?.[1];
 
+  const token = req.cookies[accessTokenCookieKey];
   if (!token || !jwt.decode(token)) {
     res.status(403).end();
   }

@@ -15,13 +15,13 @@ const validationSchema = yup
 const useLoginAuth = () => {
   const [pendingAuth, setPendingAuth] = useState(false);
 
-  const { setToken } = useContext(AuthContext);
+  const { setDecodedToken } = useContext(AuthContext);
 
   const loginRequest = async (data: LoginDTO) => {
     try {
       setPendingAuth(true);
       const res = await axios.post("/api/auth/login", data);
-      setToken(res.data.token);
+      setDecodedToken(res.data);
     } catch (e) {
       console.log("catch err", e);
     }

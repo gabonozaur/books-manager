@@ -16,7 +16,6 @@ export type JWTDTO = {
 export type RoleDTO = "USER" | "ADMIN";
 
 export type UseAuth = {
-  token: string;
-  setToken: (value: string) => void;
   decodedToken: JWTDTO;
+  setDecodedToken: (value: JWTDTO) => void;
 };

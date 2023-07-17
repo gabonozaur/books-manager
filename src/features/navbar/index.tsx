@@ -10,7 +10,7 @@ import AddBook from "../book/add";
 import AddCategory from "../category/add";
 
 const Navbar = () => {
-  const { token } = useContext(AuthContext);
+  const { decodedToken } = useContext(AuthContext);
   return (
     <Flex align="center" minH="32px" justify="space-between">
       <Flex gap="32px">
@@ -22,7 +22,7 @@ const Navbar = () => {
         <AddBook />
         <AddCategory />
 
-        {token ? (
+        {decodedToken ? (
           <>
             <LogoutAuth />
           </>

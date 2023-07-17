@@ -5,25 +5,9 @@ import { useEffect, useState } from "react";
 import { JWTDTO, UseAuth } from "./models";
 
 export const useAuth = (initialToken: string): UseAuth => {
-  const [decodedToken, setDecodedToken] = useState<JWTDTO>();
-  const [token, setToken] = useState(initialToken);
+  const [decodedToken, setDecodedToken] = useState<JWTDTO>(
+    initialToken ? (jwt.decode(initialToken) as JWTDTO) : null
+  );
 
-  useEffect(() => {
-    if (token) {
-      setDecodedToken(jwt.decode(token) as JWTDTO);
-    } else {
-      if (decodedToken) {
-        setDecodedToken(null);
-      }
-    }
-
-    apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
-    if (token) {
-      setCookie("Access-Token", token);
-    } else {
-      eraseCookie("Access-Token");
-    }
-  }, [token]);
-
-  return { token, setToken, decodedToken };
+  return { decodedToken, setDecodedToken };
 };
