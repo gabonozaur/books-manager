@@ -1,7 +1,6 @@
 import { checkApiAuthorisation } from "@/utils/checkApiAuthorisation";
 import prismaClient from "@/utils/prismaClient";
 import validateBackendFields from "@/utils/validateBackendFields";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiRequest, NextApiResponse } from "next";
 import * as yup from "yup";
 
@@ -24,8 +23,8 @@ export default async function handler(
           res,
           role: "ADMIN",
           callback: async () => {
-            await prismaClient.author
-              .create({
+            try {
+              await prismaClient.author.create({
                 data: {
                   name,
                 },
@@ -34,11 +33,13 @@ export default async function handler(
                   createdAt: true,
                   updatedAt: true,
                 },
-              })
-              .then(() => res.status(204).end())
-              .catch((err: PrismaClientKnownRequestError) => {
-                res.status(500).end("Bad Req");
               });
+              res.status(204).end();
+              return;
+            } catch (e) {
+              res.status(500).end("Bad Req");
+              return;
+            }
           },
         });
       },

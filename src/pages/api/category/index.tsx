@@ -24,20 +24,20 @@ export default async function handler(
           res,
           role: "ADMIN",
           callback: async () => {
-            await prismaClient.category
-              .create({
+            try {
+              await prismaClient.category.create({
                 data: {
                   name,
                 },
                 select: {
                   id: true,
                 },
-              })
-              .then(() => res.status(204).end())
-              .catch((err: PrismaClientKnownRequestError) => {
-                console.log("err", err);
-                res.status(500).end("Bad Req");
               });
+              res.status(204).end();
+              return;
+            } catch (e) {
+              res.status(500).end("Bad Req");
+            }
           },
         });
       },
