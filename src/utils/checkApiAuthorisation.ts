@@ -3,14 +3,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import getEnvVariable from "./getEnvVariable";
 import { accessTokenCookieKey } from "./handleCookies";
 import prismaClient from "./prismaClient";
-export const checkApiAuthorisation = async (props: {
+export const checkApiAuthorisation: (props: {
   req: NextApiRequest;
   res: NextApiResponse;
   role?: "ADMIN" | "USER";
   callback?: () => void;
-}) => {
-  const { req, res, role, callback } = props;
-
+}) => Promise<void> = async ({ req, res, role = null, callback }) => {
   const token = req.cookies[accessTokenCookieKey];
   if (!token || !jwt.decode(token)) {
     res.status(403).end();

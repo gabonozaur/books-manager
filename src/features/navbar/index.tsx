@@ -7,7 +7,6 @@ import LoginAuth from "../auth/login";
 import LogoutAuth from "../auth/logout";
 import { RegisterAuth } from "../auth/register";
 import AddAuthor from "../author/add";
-import AddEditBook from "../book/edit";
 import AddCategory from "../category/add";
 
 const Navbar = () => {
@@ -20,19 +19,22 @@ const Navbar = () => {
         <Link href={"/ee"}>Didi</Link>
       </Flex>
       <Flex gap="16px">
-        <AddAuthor />
-        <Button
-          onClick={() => {
-            setBookToUpdate("");
-          }}
-        >
-          Add Book
-        </Button>
-
-        <AddCategory />
+        {decodedToken?.role === "ADMIN" ? (
+          <>
+            <AddAuthor />
+            <AddCategory />
+          </>
+        ) : null}
 
         {decodedToken ? (
           <>
+            <Button
+              onClick={() => {
+                setBookToUpdate("");
+              }}
+            >
+              Add Book
+            </Button>
             <LogoutAuth />
           </>
         ) : (

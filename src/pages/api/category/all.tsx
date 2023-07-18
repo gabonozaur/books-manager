@@ -11,7 +11,6 @@ export default async function handler(
     checkApiAuthorisation({
       req,
       res,
-      role: "ADMIN",
       callback: async () => {
         await prismaClient.category
           .findMany()

@@ -8,7 +8,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import React from "react";
 
-export const AppContext = React.createContext(null);
+export const AppContext = React.createContext<AppContextProps>(null);
 
 export default function App(props: AppProps & { cookies: any }) {
   const { cookies, Component, pageProps } = props;

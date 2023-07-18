@@ -2,10 +2,12 @@ import { AppContext } from "@/pages/_app";
 import { Button, Flex, Link as CKLink, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useContext } from "react";
+import { AuthContext } from "../auth";
 import { BookDTO } from "./models";
 
 const Book: React.FC<BookDTO> = ({ name, id, author, categories }) => {
   const { setBookToUpdate } = useContext(AppContext);
+  const { decodedToken } = useContext(AuthContext);
   return (
     <Flex justify="space-between" boxShadow={"lg"} p="4px" direction={"column"}>
       <Text>Name {name}</Text>
@@ -22,13 +24,15 @@ const Book: React.FC<BookDTO> = ({ name, id, author, categories }) => {
           </CKLink>
         ))}
       </Flex>
-      <Button
-        onClick={() => {
-          setBookToUpdate(id);
-        }}
-      >
-        Edit
-      </Button>
+      {decodedToken?.role === "ADMIN" ? (
+        <Button
+          onClick={() => {
+            setBookToUpdate(id);
+          }}
+        >
+          Edit
+        </Button>
+      ) : null}
     </Flex>
   );
 };
