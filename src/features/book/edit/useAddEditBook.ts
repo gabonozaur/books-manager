@@ -59,7 +59,7 @@ const useAddEditBook = () => {
       console.log("uppd ata is", data.categories);
       setSavingChanges(true);
       await apiClient.put(`/api/book/${bookToUpdate}/update`, data);
-      // window.location.reload();
+      window.location.reload();
     } catch (e) {
       console.log("catch err", e);
     }
