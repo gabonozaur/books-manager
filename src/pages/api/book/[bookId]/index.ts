@@ -88,6 +88,7 @@ export default async function handler(
             },
             data: {
               name,
+              updatedAt: new Date(),
               author: {
                 connect: {
                   id: authorId,

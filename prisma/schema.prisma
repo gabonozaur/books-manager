@@ -8,33 +8,40 @@ datasource db {
 }
 
 model User {
-  id       String   @id @default(uuid())
-  email    String   @unique(map: "User_email_key")
-  password String
-  name     String?
-  role     UserRole @default(USER)
+  id        String   @id @default(uuid())
+  email     String   @unique(map: "User_email_key")
+  password  String
+  name      String?
+  role      UserRole @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model Book {
-  id         String           @id @default(uuid())
-  author     Author           @relation(fields: [authorId], references: [id])
+  id         String     @id @default(uuid())
+  author     Author     @relation(fields: [authorId], references: [id])
   authorId   String
-  name       String           @unique(map: "Book_key")
-  categories   Category[] @relation("BookToCategory")
+  name       String     @unique(map: "Book_key")
+  categories Category[] @relation("BookToCategory")
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @default(now())
 }
 
 model Author {
-  id    String @id @default(uuid())
-  name  String @unique(map: "Author_key") 
-  books Book[] 
+  id        String   @id @default(uuid())
+  name      String   @unique(map: "Author_key")
+  books     Book[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model Category {
-  id     String           @id @default(uuid())
-  name   String           @unique(map: "Category_key")
-  book   Book[] @relation("BookToCategory")
+  id        String   @id @default(uuid())
+  name      String   @unique(map: "Category_key")
+  book      Book[]   @relation("BookToCategory")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
-
 
 enum UserRole {
   USER

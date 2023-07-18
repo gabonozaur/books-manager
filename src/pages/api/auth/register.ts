@@ -20,6 +20,8 @@ export default async function handler(
         },
         select: {
           id: true,
+          createdAt: true,
+          updatedAt: true,
         },
       })
       .then(() => res.end())
