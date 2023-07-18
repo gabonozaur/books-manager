@@ -36,7 +36,7 @@ export default async function handler(
             { strict: true }
           );
         } catch (e) {
-          res.status(500).end;
+          res.status(500).end();
           return;
         }
         const restOfcategories = await prismaClient.category.findMany({

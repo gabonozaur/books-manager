@@ -27,7 +27,7 @@ export default async function handler(
         try {
           await validationSchema.validate(req.body, { strict: true });
         } catch (e) {
-          res.status(500).end;
+          res.status(500).end();
           return;
         }
 
@@ -41,7 +41,7 @@ export default async function handler(
                 },
               },
               categories: {
-                connect: categories.map((categ) => ({ id: categ + "  33" })),
+                connect: categories.map((categ) => ({ id: categ })),
               },
             },
             select: {
