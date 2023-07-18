@@ -1,23 +1,11 @@
 import { AddEditBookDTO } from "@/features/book/edit/models";
 import { checkApiAuthorisation } from "@/utils/checkApiAuthorisation";
 import prismaClient from "@/utils/prismaClient";
+import validateBackendFields from "@/utils/validateBackendFields";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import * as yup from "yup";
-
-type UpdateBookDTOWithBookId = AddEditBookDTO & {
-  bookId: string;
-};
-
-const validationSchema = yup
-  .object()
-  .shape<{ [key in keyof UpdateBookDTOWithBookId]: yup.Schema<any> }>({
-    bookId: yup.string().required("param issue"),
-    authorId: yup.string().required("param issue"),
-    categories: yup.array().min(1, "param issue"),
-    name: yup.string().required("param issue"),
-  });
 
 export default async function handler(
   req: NextApiRequest,
@@ -51,61 +39,62 @@ export default async function handler(
   if (req.method === "PUT") {
     const { categories, name, authorId } = req.body as AddEditBookDTO;
     const bookId = req.query["bookId"] as string;
-
-    checkApiAuthorisation({
-      req,
+    validateBackendFields<AddEditBookDTO & { bookId: string }>({
+      data: { ...req.body, bookId },
       res,
+      shape: {
+        name: yup.string().required("missing name"),
+        authorId: yup.string().required("missing authorId"),
+        categories: yup.array().required("missing categories"),
+        bookId: yup.string().required("missing book id"),
+      },
       callback: async () => {
-        try {
-          await validationSchema.validate(
-            { ...req.body, bookId },
-            { strict: true }
-          );
-        } catch (e) {
-          res.status(500).end();
-          return;
-        }
-        const restOfcategories = await prismaClient.category.findMany({
-          where: {
-            book: {
-              some: {
-                id: bookId,
-              },
-            },
-            id: {
-              notIn: categories,
-            },
-          },
-          select: {
-            id: true,
-          },
-        });
-
-        await prismaClient.book
-          .update({
-            where: {
-              id: bookId,
-            },
-            data: {
-              name,
-              updatedAt: new Date(),
-              author: {
-                connect: {
-                  id: authorId,
+        checkApiAuthorisation({
+          req,
+          res,
+          callback: async () => {
+            const restOfcategories = await prismaClient.category.findMany({
+              where: {
+                book: {
+                  some: {
+                    id: bookId,
+                  },
+                },
+                id: {
+                  notIn: categories,
                 },
               },
-              categories: {
-                connect: categories.map((categ) => ({ id: categ })),
-                disconnect: restOfcategories,
+              select: {
+                id: true,
               },
-            },
-          })
-
-          .then(() => res.status(204).end())
-          .catch((err: PrismaClientKnownRequestError) => {
-            console.log("err", err);
-            res.status(500).end("Bad Req");
-          });
+            });
+            try {
+              await prismaClient.book.update({
+                where: {
+                  id: bookId,
+                },
+                data: {
+                  name,
+                  updatedAt: new Date(),
+                  author: {
+                    connect: {
+                      id: authorId,
+                    },
+                  },
+                  categories: {
+                    connect: categories.map((categ) => ({ id: categ })),
+                    disconnect: restOfcategories,
+                  },
+                },
+              });
+              res.status(204).end();
+              return;
+            } catch (e) {
+              res.status(500).end("Bad Req");
+              return;
+            }
+          },
+        });
       },
     });
   }

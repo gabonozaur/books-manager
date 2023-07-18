@@ -32,7 +32,7 @@ const useLoginAuth = () => {
     useFormik<LoginDTO>({
       initialValues: { email: "", password: "" },
       onSubmit: loginRequest,
-      validationSchema,
+      // validationSchema,
     });
 
   return {
