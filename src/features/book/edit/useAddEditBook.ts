@@ -2,7 +2,6 @@ import { LabelAndValue } from "@/app/commonComponents/multiSelect";
 import { AppContext } from "@/pages/_app";
 import { apiClient } from "@/utils/apiClient";
 import { NameWithId } from "@/utils/models";
-import { useDisclosure } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { useContext, useEffect, useState } from "react";
 import { AddEditBookDTO } from "./models";
@@ -58,7 +57,7 @@ const useAddEditBook = () => {
     try {
       console.log("uppd ata is", data.categories);
       setSavingChanges(true);
-      await apiClient.put(`/api/book/${bookToUpdate}/update`, data);
+      await apiClient.put(`/api/book/${bookToUpdate}`, data);
       window.location.reload();
     } catch (e) {
       console.log("catch err", e);
