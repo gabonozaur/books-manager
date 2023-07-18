@@ -1,14 +1,27 @@
 import { AppContext } from "@/pages/_app";
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Button, Flex, Link as CKLink, Text } from "@chakra-ui/react";
+import Link from "next/link";
 import { useContext } from "react";
 import { BookDTO } from "./models";
 
-const Book: React.FC<BookDTO> = ({ name, id, author }) => {
+const Book: React.FC<BookDTO> = ({ name, id, author, categories }) => {
   const { setBookToUpdate } = useContext(AppContext);
   return (
-    <Box boxShadow={"lg"} p="4px">
+    <Flex justify="space-between" boxShadow={"lg"} p="4px" direction={"column"}>
       <Text>Name {name}</Text>
       <Text>Author {author.name}</Text>
+      <Flex>
+        {categories?.map((categ) => (
+          <CKLink
+            as={Link}
+            href={`/category/${categ.id}`}
+            key={categ.id}
+            m="4px"
+          >
+            {categ.name}
+          </CKLink>
+        ))}
+      </Flex>
       <Button
         onClick={() => {
           setBookToUpdate(id);
@@ -16,7 +29,7 @@ const Book: React.FC<BookDTO> = ({ name, id, author }) => {
       >
         Edit
       </Button>
-    </Box>
+    </Flex>
   );
 };
 

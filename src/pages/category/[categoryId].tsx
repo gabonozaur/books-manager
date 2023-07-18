@@ -4,7 +4,7 @@ import { apiClient } from "@/utils/apiClient";
 import { Grid, Text } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 
-export default function Home(props: { books: BookDTO[] }) {
+export default function CategoryPage(props: { books: BookDTO[] }) {
   return props.books.length ? (
     <Grid templateColumns={"1fr 1fr 1fr"} gap="8px">
       {props.books.map((book) => (
@@ -16,9 +16,9 @@ export default function Home(props: { books: BookDTO[] }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const books = await apiClient
-    .get("/api/book/all")
+    .get(`/api/book/category/${ctx.query["categoryId"]}`)
     .then((res) => res.data)
     .catch(null);
 
