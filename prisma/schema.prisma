@@ -20,29 +20,21 @@ model Book {
   author     Author           @relation(fields: [authorId], references: [id])
   authorId   String
   name       String           @unique(map: "Book_key")
-  categories   BookToCategory[]
+  categories   Category[] @relation("BookToCategory")
 }
 
 model Author {
   id    String @id @default(uuid())
-  name  String @unique(map: "Author_key")
-  books Book[]
+  name  String @unique(map: "Author_key") 
+  books Book[] 
 }
 
 model Category {
   id     String           @id @default(uuid())
   name   String           @unique(map: "Category_key")
-  book   BookToCategory[]
+  book   Book[] @relation("BookToCategory")
 }
 
-model BookToCategory {
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
-  book       Book     @relation(fields: [bookId], references: [id])
-  bookId     String
-
-  @@id([categoryId, bookId])
-}
 
 enum UserRole {
   USER

@@ -1,3 +1,4 @@
+import MultiSelect from "@/app/commonComponents/multiSelect";
 import {
   Button,
   FormLabel,
@@ -8,12 +9,12 @@ import {
   ModalOverlay,
   Select,
 } from "@chakra-ui/react";
-import useAddBook from "./useAddBook";
+import useAddEditBook from "./useAddEditBook";
 
-const AddBook = () => {
+const AddEditBook = () => {
   const {
-    isOpen,
-    onToggle,
+    bookToUpdate,
+    setBookToUpdate,
     authorOptions,
     values,
     handleChange,
@@ -21,14 +22,14 @@ const AddBook = () => {
     savingChanges,
     handleReset,
     categoryOptions,
-  } = useAddBook();
+    setValues,
+  } = useAddEditBook();
   return (
     <>
-      <Button onClick={onToggle}>Add Book</Button>
       <Modal
-        isOpen={isOpen}
+        isOpen={typeof bookToUpdate === "string"}
         onClose={() => {
-          onToggle();
+          setBookToUpdate(null);
           handleReset(null);
         }}
       >
@@ -41,20 +42,15 @@ const AddBook = () => {
             <Input id="name" value={values.name} onChange={handleChange} />
 
             <FormLabel htmlFor="category">categ</FormLabel>
-            <Select
-              value={values.category}
-              onChange={handleChange}
-              id="category"
-            >
-              <option hidden disabled value="">
-                Select Categ
-              </option>
-              {categoryOptions.map(({ id, name }) => (
-                <option key={id} value={id}>
-                  {name}
-                </option>
-              ))}
-            </Select>
+            <MultiSelect
+              values={values.categories}
+              onChange={(val) => {
+                setValues({ ...values, categories: val });
+              }}
+              id="categories"
+              placeholder="Select Categ"
+              options={categoryOptions}
+            />
 
             <FormLabel htmlFor="authorId">Author</FormLabel>
             <Select
@@ -86,4 +82,4 @@ const AddBook = () => {
   );
 };
 
-export default AddBook;
+export default AddEditBook;

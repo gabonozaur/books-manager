@@ -1,16 +1,18 @@
+import { AppContext } from "@/pages/_app";
 import { Link } from "@chakra-ui/next-js";
-import { Flex } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import { useContext } from "react";
 import { AuthContext } from "../auth";
 import LoginAuth from "../auth/login";
 import LogoutAuth from "../auth/logout";
 import { RegisterAuth } from "../auth/register";
 import AddAuthor from "../author/add";
-import AddBook from "../book/add";
+import AddEditBook from "../book/edit";
 import AddCategory from "../category/add";
 
 const Navbar = () => {
   const { decodedToken } = useContext(AuthContext);
+  const { setBookToUpdate } = useContext(AppContext);
   return (
     <Flex align="center" minH="32px" justify="space-between">
       <Flex gap="32px">
@@ -19,7 +21,14 @@ const Navbar = () => {
       </Flex>
       <Flex gap="16px">
         <AddAuthor />
-        <AddBook />
+        <Button
+          onClick={() => {
+            setBookToUpdate("");
+          }}
+        >
+          Add Book
+        </Button>
+
         <AddCategory />
 
         {decodedToken ? (
