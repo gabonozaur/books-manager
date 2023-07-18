@@ -1,3 +1,4 @@
+import { RegisterConfirmDTO } from "@/app/models";
 import { encryptPassword } from "@/features/auth/encryptPassword";
 import { RegisterDTO } from "@/features/auth/models";
 import prismaClient from "@/utils/prismaClient";
@@ -8,23 +9,31 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "POST") {
-    const { email, name } = req.body as RegisterDTO;
+  if (req.method === "GET") {
+    const { email, confirmString } = req.query as RegisterConfirmDTO;
+    const user = await prismaClient.user.findFirst({
+      where: {
+        email,
+      },
+    });
+
+    if (user.confirmString !== confirmString) {
+      res.status(500).end();
+      return;
+    }
 
     await prismaClient.user
-      .create({
-        data: {
-          name,
+      .update({
+        where: {
           email,
-          password: encryptPassword(req.body),
         },
-        select: {
-          id: true,
-          createdAt: true,
-          updatedAt: true,
+        data: {
+          confirmed: true,
         },
       })
-      .then(() => res.end())
+      .then(() => {
+        res.end();
+      })
       .catch((err: PrismaClientKnownRequestError) => {
         res.end(err.message);
       });

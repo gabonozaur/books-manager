@@ -14,7 +14,7 @@ const useRegisterAuth = () => {
       setPending(true);
       await axios.post("/api/auth/register", data);
       setIsOpen(false);
-      alert("acc created, you can login");
+      alert("Check email for confirm");
     } catch (e) {
       console.log("catch err", e);
     }

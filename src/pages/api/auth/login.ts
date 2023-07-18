@@ -18,8 +18,7 @@ export default async function handler(
         email,
       },
     });
-
-    if (user && user.password === encryptPassword(req.body)) {
+    if (user && user.password === encryptPassword(req.body) && user.confirmed) {
       let jwtSecretKey = getEnvVariable("JWT_Key");
       let data = {
         userId: user.id,
@@ -38,7 +37,7 @@ export default async function handler(
       res.json(data);
       return;
     }
-    res.end("error");
+    res.status(500).end("error");
     return;
   }
 }
