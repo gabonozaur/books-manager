@@ -9,7 +9,6 @@ import {
   ModalBody,
   ModalContent,
 } from "@chakra-ui/react";
-import { Form } from "formik";
 import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import useLoginAuth from "./useLogin";
@@ -54,7 +53,7 @@ const LoginAuth = () => {
               <FormLabel htmlFor="email">Email</FormLabel>
 
               <Input
-                isInvalid={errors.email && touched.email}
+                isInvalid={!!errors.email && !!touched.email}
                 id="email"
                 onChange={handleChange}
                 value={values.email}
@@ -64,7 +63,7 @@ const LoginAuth = () => {
               <InputGroup>
                 <Input
                   autoComplete="off"
-                  isInvalid={errors.password && touched.password}
+                  isInvalid={!!errors.password && !!touched.password}
                   id={"password"}
                   type={seePassword ? "text" : "password"}
                   value={values.password}
