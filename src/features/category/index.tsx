@@ -2,7 +2,7 @@ import { NameWithId } from "@/utils/models";
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { useContext } from "react";
 import { AuthContext } from "../auth";
-import CardAuthors from "./Card";
+import CardCategory from "./Card";
 import EditAuthors from "./Edit";
 import useCategory from "./useCategory";
 
@@ -15,9 +15,11 @@ const AllCategories: React.FC<{ categories: NameWithId[] }> = ({
   return (
     <>
       <Flex align="center" my="8px">
-        <Text>Categories</Text>
+        <Text fontWeight={"bold"}>Categories</Text>
         {decodedToken?.role === "ADMIN" ? (
           <Button
+            size="sm"
+            colorScheme={"green"}
             onClick={() => {
               onOpenEdit({ name: "", id: "" });
             }}
@@ -30,7 +32,7 @@ const AllCategories: React.FC<{ categories: NameWithId[] }> = ({
       {categories ? (
         <Flex>
           {categories.map((author) => (
-            <CardAuthors {...author} key={author.id} onOpenEdit={onOpenEdit} />
+            <CardCategory {...author} key={author.id} onOpenEdit={onOpenEdit} />
           ))}
         </Flex>
       ) : (

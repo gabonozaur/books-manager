@@ -8,6 +8,7 @@ import {
   ModalContent,
   ModalOverlay,
   Select,
+  ModalHeader,
 } from "@chakra-ui/react";
 import useAddEditBook from "./useAddEditBook";
 
@@ -36,46 +37,55 @@ const AddEditBook = () => {
         <ModalOverlay />
 
         <ModalContent>
-          <ModalBody>srman</ModalBody>
-          <form>
-            <FormLabel htmlFor="name">Book Name</FormLabel>
-            <Input id="name" value={values.name} onChange={handleChange} />
+          <ModalHeader>{bookToUpdate ? "Update" : "Add"} Book</ModalHeader>
+          <ModalBody>
+            <form>
+              <FormLabel htmlFor="name">Book Name</FormLabel>
+              <Input
+                id="name"
+                value={values.name}
+                onChange={handleChange}
+                placeholder="Add Name"
+              />
 
-            <FormLabel htmlFor="category">categ</FormLabel>
-            <MultiSelect
-              values={values.categories}
-              onChange={(val) => {
-                setValues({ ...values, categories: val });
-              }}
-              id="categories"
-              placeholder="Select Categ"
-              options={categoryOptions}
-            />
+              <FormLabel htmlFor="category">categ</FormLabel>
+              <MultiSelect
+                values={values.categories}
+                onChange={(val) => {
+                  setValues({ ...values, categories: val });
+                }}
+                id="categories"
+                placeholder="Select Categ"
+                options={categoryOptions}
+              />
 
-            <FormLabel htmlFor="authorId">Author</FormLabel>
-            <Select
-              value={values.authorId}
-              onChange={handleChange}
-              id="authorId"
-            >
-              <option hidden disabled value="">
-                Select Author
-              </option>
-              {authorOptions.map(({ id, name }) => (
-                <option key={id} value={id}>
-                  {name}
+              <FormLabel htmlFor="authorId">Author</FormLabel>
+              <Select
+                value={values.authorId}
+                onChange={handleChange}
+                id="authorId"
+              >
+                <option hidden disabled value="">
+                  Select Author
                 </option>
-              ))}
-            </Select>
-            <Button
-              isLoading={savingChanges}
-              onClick={() => {
-                handleSubmit();
-              }}
-            >
-              Save
-            </Button>
-          </form>
+                {authorOptions.map(({ id, name }) => (
+                  <option key={id} value={id}>
+                    {name}
+                  </option>
+                ))}
+              </Select>
+              <Button
+                mt="8px"
+                colorScheme={"green"}
+                isLoading={savingChanges}
+                onClick={() => {
+                  handleSubmit();
+                }}
+              >
+                Save
+              </Button>
+            </form>
+          </ModalBody>
         </ModalContent>
       </Modal>
     </>

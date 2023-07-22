@@ -11,14 +11,17 @@ const Navbar = () => {
   const { decodedToken } = useContext(AuthContext);
   const { setBookToUpdate } = useContext(AppContext);
   return (
-    <Flex align="center" minH="32px" justify="space-between">
+    <Flex align="center" minH="32px" mb="16px" justify="space-between">
       <Flex gap="32px">
-        <Link href={"/"}>Home</Link>
+        <Link fontWeight={"bold"} href={"/"}>
+          Home
+        </Link>
       </Flex>
       <Flex gap="16px">
         {decodedToken ? (
           <>
             <Button
+              colorScheme={"green"}
               onClick={() => {
                 setBookToUpdate("");
               }}

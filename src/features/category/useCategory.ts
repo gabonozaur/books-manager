@@ -22,7 +22,9 @@ const useCategory = () => {
     setPending(true);
 
     try {
-      await apiClient.put(`/api/category/${idToEdit}`, { name });
+      await (idToEdit
+        ? apiClient.put(`/api/category/${idToEdit}`, { name })
+        : apiClient.post("/api/category", { name }));
       // onCloseEdit();
       window.location.reload();
     } catch (e) {}

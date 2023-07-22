@@ -6,6 +6,7 @@ import {
   Modal,
   ModalBody,
   ModalContent,
+  ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
 import { FC } from "react";
@@ -19,32 +20,36 @@ const EditAuthors: FC<{
   onCloseEdit: () => void;
 }> = ({ name, setName, pending, changeRequest, idToEdit, onCloseEdit }) => {
   return (
-    <Modal isOpen={!!idToEdit} onClose={onCloseEdit}>
+    <Modal isOpen={idToEdit !== null} onClose={onCloseEdit}>
       <ModalOverlay />
 
-      <ModalContent p="16px">
-        <ModalBody>
-          {idToEdit ? "Edit" : "Add"}
+      <ModalContent>
+        <ModalHeader>
+          {idToEdit ? "Edit " : "Add "}
           Author
+        </ModalHeader>
+        <ModalBody>
+          <form>
+            <FormLabel htmlFor="password">Name</FormLabel>
+            <Flex>
+              <Input
+                defaultValue={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+              <Button
+                ml="8px"
+                colorScheme={"green"}
+                isDisabled={!name}
+                isLoading={pending}
+                onClick={changeRequest}
+              >
+                {idToEdit ? "Edit" : "Add"}
+              </Button>
+            </Flex>
+          </form>
         </ModalBody>
-        <form>
-          <FormLabel htmlFor="password">Name</FormLabel>
-          <Flex>
-            <Input
-              defaultValue={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-            <Button
-              isDisabled={!name}
-              isLoading={pending}
-              onClick={changeRequest}
-            >
-              {idToEdit ? "Edit" : "Add"}
-            </Button>
-          </Flex>
-        </form>
       </ModalContent>
     </Modal>
   );

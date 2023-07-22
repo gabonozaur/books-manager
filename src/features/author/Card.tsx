@@ -11,18 +11,19 @@ const CardAuthors: FC<
   const { decodedToken } = useContext(AuthContext);
 
   return (
-    <Flex align="center" p="12px">
+    <Flex align="center" m="8px" p="4px" boxShadow={"md"} borderWidth="2px">
       <CkLink as={Link} href={`/author/${id}`}>
         {name}
       </CkLink>
       {decodedToken?.role === "ADMIN" ? (
         <IconButton
+          color={"orange"}
           onClick={() => {
             onOpenEdit({ name, id });
           }}
           ml="4px"
           aria-label="author-edit"
-          size="12px"
+          size="16px"
           icon={<BiSolidCog />}
         />
       ) : null}

@@ -17,8 +17,8 @@ const LogoutAuth = () => {
     }
   };
   return (
-    <Button onClick={logout} isLoading={inpProcess}>
-      logout
+    <Button colorScheme={"orange"} onClick={logout} isLoading={inpProcess}>
+      Logout
     </Button>
   );
 };

@@ -13,9 +13,11 @@ const AllAuthors: React.FC<{ authors: NameWithId[] }> = ({ authors }) => {
   return (
     <>
       <Flex align="center" my="8px">
-        <Text>Authors</Text>
+        <Text fontWeight={"bold"}>Authors</Text>
         {decodedToken?.role === "ADMIN" ? (
           <Button
+            colorScheme={"green"}
+            size="sm"
             onClick={() => {
               onOpenEdit({ name: "", id: "" });
             }}

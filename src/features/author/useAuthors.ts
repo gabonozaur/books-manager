@@ -22,7 +22,9 @@ const useAuthors = () => {
     setPending(true);
 
     try {
-      await apiClient.put(`/api/author/${idToEdit}`, { name });
+      await (idToEdit
+        ? apiClient.put(`/api/author/${idToEdit}`, { name })
+        : apiClient.post("/api/author", { name }));
       // onCloseEdit();
       window.location.reload();
     } catch (e) {}
