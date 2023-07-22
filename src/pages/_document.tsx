@@ -7,7 +7,7 @@ export default function Document() {
         <title>Books Manager</title>
         <meta name="robots" content="noindex" />
       </Head>
-      <body>
+      <body style={{ padding: "16px" }}>
         <Main />
         <NextScript />
       </body>

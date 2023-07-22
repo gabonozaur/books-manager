@@ -8,17 +8,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    checkApiAuthorisation({
-      req,
-      res,
-      callback: async () => {
-        await prismaClient.author
-          .findMany()
-          .then((data) => res.status(200).json(data))
-          .catch((err: PrismaClientKnownRequestError) => {
-            res.end(err.message);
-          });
-      },
-    });
+    await prismaClient.author
+      .findMany()
+      .then((data) => res.status(200).json(data))
+      .catch((err: PrismaClientKnownRequestError) => {
+        res.end(err.message);
+      });
   }
 }

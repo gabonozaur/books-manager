@@ -6,7 +6,6 @@ import { AuthContext } from "../auth";
 import LoginAuth from "../auth/login";
 import LogoutAuth from "../auth/logout";
 import { RegisterAuth } from "../auth/register";
-import AddAuthor from "../author/add";
 import AddCategory from "../category/add";
 
 const Navbar = () => {
@@ -21,7 +20,6 @@ const Navbar = () => {
       <Flex gap="16px">
         {decodedToken?.role === "ADMIN" ? (
           <>
-            <AddAuthor />
             <AddCategory />
           </>
         ) : null}

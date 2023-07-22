@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { RegisterConfirmDTO } from "./models";
 import { apiClient } from "@/utils/apiClient";
+import { NameWithId } from "@/utils/models";
 
 const useApp = (cookies: any) => {
   const authValues = useAuth(cookies[accessTokenCookieKey]);
   const [bookToUpdate, setBookToUpdate] = useState(null as string | null);
+
   const { query } = useRouter();
   const { email, confirmString } = query as RegisterConfirmDTO;
 
@@ -26,7 +28,11 @@ const useApp = (cookies: any) => {
     }
   }, [email, confirmString]);
 
-  return { authValues, bookToUpdate, setBookToUpdate };
+  return {
+    authValues,
+    bookToUpdate,
+    setBookToUpdate,
+  };
 };
 
 export default useApp;

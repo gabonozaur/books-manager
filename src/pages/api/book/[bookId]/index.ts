@@ -53,22 +53,22 @@ export default async function handler(
           req,
           res,
           callback: async () => {
-            const restOfcategories = await prismaClient.category.findMany({
-              where: {
-                book: {
-                  some: {
-                    id: bookId,
+            try {
+              const restOfcategories = await prismaClient.category.findMany({
+                where: {
+                  book: {
+                    some: {
+                      id: bookId,
+                    },
+                  },
+                  id: {
+                    notIn: categories,
                   },
                 },
-                id: {
-                  notIn: categories,
+                select: {
+                  id: true,
                 },
-              },
-              select: {
-                id: true,
-              },
-            });
-            try {
+              });
               await prismaClient.book.update({
                 where: {
                   id: bookId,
