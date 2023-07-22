@@ -62,8 +62,9 @@ export default async function handler(
                   href={`${getEnvVariable(
                     "NEXT_PUBLIC_BASEURL"
                   )}?email=${email}&confirmString=${confirmString}`}
-                  children="Confirm"
-                />
+                >
+                  Confirm
+                </a>
               </div>
             ),
           };

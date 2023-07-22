@@ -6,7 +6,6 @@ import { AuthContext } from "../auth";
 import LoginAuth from "../auth/login";
 import LogoutAuth from "../auth/logout";
 import { RegisterAuth } from "../auth/register";
-import AddCategory from "../category/add";
 
 const Navbar = () => {
   const { decodedToken } = useContext(AuthContext);
@@ -15,15 +14,8 @@ const Navbar = () => {
     <Flex align="center" minH="32px" justify="space-between">
       <Flex gap="32px">
         <Link href={"/"}>Home</Link>
-        <Link href={"/ee"}>Didi</Link>
       </Flex>
       <Flex gap="16px">
-        {decodedToken?.role === "ADMIN" ? (
-          <>
-            <AddCategory />
-          </>
-        ) : null}
-
         {decodedToken ? (
           <>
             <Button
